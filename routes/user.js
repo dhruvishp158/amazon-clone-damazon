@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user");
-
+const passport = require("passport");
+const passportConfig = require("../config/passport");
 router.get("/signup", function (req, res) {
   res.render("accounts/signup", {
     errors: req.flash("errors"),
@@ -24,5 +25,30 @@ router.post("/signup", function (req, res, next) {
       });
     }
   });
+});
+
+router.get("/login", function (req, res) {
+  //   if (req.user) return res.redirect("/");
+  res.render("accounts/login", { message: req.flash("loginMessage") });
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local-login", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
+  function (req, res) {}
+);
+
+router.get("/profile", function (req, res) {
+  User.findOne({ _id: req.user._id }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    res.render("accounts/profile", { user: user });
+  });
+  //   res.json(req.user);
 });
 module.exports = router;

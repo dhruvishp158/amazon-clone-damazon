@@ -1,17 +1,14 @@
 const mongoose = require("mongoose");
-
+const secret = require("./secret");
 //==============Async await===========
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://Dhruvish:Dhruvish@dmazon-uqk7p.mongodb.net/dmazon?retryWrites=true&w=majority",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-      }
-    );
+    await mongoose.connect(secret.database, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
     console.log("MongoDB Connected..");
   } catch (err) {
     console.error(err.message);
