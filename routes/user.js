@@ -51,4 +51,9 @@ router.get("/profile", function (req, res) {
   });
   //   res.json(req.user);
 });
+
+router.get("/logout", function (req, res, next) {
+  req.logOut();
+  res.redirect("/");
+});
 module.exports = router;
