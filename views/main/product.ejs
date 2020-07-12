@@ -1,0 +1,28 @@
+<head>
+  <style>
+    .product-container {
+      margin: 5rem 2rem;
+    }
+    .product-1 {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+    img {
+      width: 650px;
+    }
+  </style>
+</head>
+
+<% layout('layout') -%>
+
+<div class="product-container">
+  <div class="product-1">
+    <div class="product-2">
+      <img src="<%= product.image %> " alt="" />
+    </div>
+    <div class="product-3">
+      <h3><%= product.name %></h3>
+      <h3>$<%= product.price %></h3>
+    </div>
+  </div>
+</div>

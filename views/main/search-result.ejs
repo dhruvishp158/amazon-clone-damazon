@@ -1,0 +1,51 @@
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    .categories {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-gap: 1rem;
+      margin: 5rem 2rem;
+    }
+    .categories-individual {
+      box-shadow: 2px 2px 8px -4px black;
+      padding: 2rem;
+    }
+    .caption {
+      text-align: center;
+    }
+  </style>
+</head>
+<% layout('layout') -%> <% if (data.length===0) { %>
+<h3>Not found!</h3>
+<% } else { %>
+<h3>Results for <%= query %></h3>
+<div class="categories">
+  <% for( let i = 0; i < data.length; i++ ) { %>
+  <div class="categories-individual">
+    <a
+      style="text-decoration: none; color: rgb(63, 65, 71);"
+      href="/product/<%= data[i]._source._id %> "
+    >
+      <div class="img-container">
+        <img
+          style="max-width: 300px; border-radius: 2rem;"
+          src="<%= data[i]._source.image   %> "
+          alt=""
+        />
+        <div class="caption" style="padding: 1rem;">
+          <h3><%= data[i]._source.name %></h3>
+          <p><%= data[i]._source.category.name %></p>
+          <p>$<%= data[i]._source.price %></p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% } %>
+</div>
+
+<% } %>
