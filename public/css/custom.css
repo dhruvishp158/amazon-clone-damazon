@@ -41,3 +41,6 @@ img {
 .img-container {
   text-align: center;
 }
+.product-image {
+  width: 100%;
+}

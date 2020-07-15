@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { schema } = require("./product");
 const Schema = mongoose.Schema;
 
 let CartSchema = new Schema({
@@ -7,7 +6,7 @@ let CartSchema = new Schema({
   total: { type: Number, default: 0 },
   items: [
     {
-      item: { type: schema.Types.ObjectId, ref: "Product" },
+      item: { type: Schema.Types.ObjectId, ref: "Product" },
       quantity: { type: Number, default: 1 },
       price: { type: Number, default: 0 },
     },

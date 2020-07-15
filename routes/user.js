@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../models/user");
 const passport = require("passport");
 const passportConfig = require("../config/passport");
+const async = require("async");
+const Cart = require("../models/cart");
 router.get("/signup", function (req, res) {
   res.render("accounts/signup", {
     errors: req.flash("errors"),
@@ -9,27 +11,39 @@ router.get("/signup", function (req, res) {
 });
 
 router.post("/signup", function (req, res, next) {
-  let user = new User();
-  user.profile.name = req.body.name;
-  user.password = req.body.password;
-  user.email = req.body.email;
-  user.profile.picture = user.gravatar();
+  async.waterfall([
+    function (callback) {
+      let user = new User();
+      user.profile.name = req.body.name;
+      user.password = req.body.password;
+      user.email = req.body.email;
+      user.profile.picture = user.gravatar();
 
-  User.findOne({ email: req.body.email }, function (err, existingUser) {
-    if (existingUser) {
-      req.flash("errors", "Email address already exist");
-      return res.redirect("/signup");
-    } else {
-      user.save(function (err, user) {
+      User.findOne({ email: req.body.email }, function (err, existingUser) {
+        if (existingUser) {
+          req.flash("errors", "Email address already exist");
+          return res.redirect("/signup");
+        } else {
+          user.save(function (err, user) {
+            if (err) return next(err);
+            // return res.redirect("/");
+            callback(null, user);
+          });
+        }
+      });
+    },
+    function (user) {
+      let cart = new Cart();
+      cart.owner = user._id;
+      cart.save(function (err) {
         if (err) return next(err);
-        // return res.redirect("/");
-        req.login(user, function (err) {
+        req.logIn(user, function (err) {
           if (err) return next(err);
           res.redirect("/profile");
         });
       });
-    }
-  });
+    },
+  ]);
 });
 
 router.get("/login", function (req, res) {

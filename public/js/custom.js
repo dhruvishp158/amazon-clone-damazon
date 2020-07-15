@@ -1,3 +1,4 @@
+// search
 $(function () {
   $("#search").keyup(function () {
     let search_term = $(this).val();
@@ -36,4 +37,32 @@ $(function () {
       },
     });
   });
+});
+//cart
+
+$(document).on("click", "#plus", function (e) {
+  e.preventDefault();
+  let pricevalue = parseFloat($("#priceValue").val());
+  let quantity = parseInt($("#quantity").val());
+  pricevalue += parseFloat($("#priceHidden").val());
+  quantity += 1;
+  $("#quantity").val(quantity);
+  $("#priceValue").val(pricevalue.toFixed(2));
+  $("#total").html(quantity);
+});
+$(document).on("click", "#minus", function (e) {
+  e.preventDefault();
+  let pricevalue = parseFloat($("#priceValue").val());
+  let quantity = parseInt($("#quantity").val());
+  if (quantity === 1) {
+    pricevalue = $("#priceHidden").val();
+    quantity = 1;
+  } else {
+    pricevalue -= parseFloat($("#priceHidden").val());
+    quantity -= 1;
+  }
+
+  $("#quantity").val(quantity);
+  $("#priceValue").val(pricevalue.toFixed(2));
+  $("#total").html(quantity);
 });

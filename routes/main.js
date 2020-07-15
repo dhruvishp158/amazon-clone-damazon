@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 Product.createMapping(function (err, mapping) {
   if (err) {
@@ -22,6 +23,46 @@ stream.on("close", function () {
 });
 stream.on("error", function (err) {
   console.log(err);
+});
+
+router.get("/cart", function (req, res, next) {
+  Cart.findOne({ owner: req.user._id })
+    .populate("items.item")
+    .exec(function (err, foundCart) {
+      if (err) return next(err);
+      res.render("main/cart", {
+        message: req.flash("remove"),
+        foundCart: foundCart,
+      });
+    });
+});
+
+router.post("/product/:product_id", function (req, res, next) {
+  Cart.findOne({ owner: req.user._id }, function (err, cart) {
+    cart.items.push({
+      item: req.params.product_id,
+      price: parseFloat(req.body.priceValue),
+      quantity: parseInt(req.body.quantity),
+    });
+    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2);
+    cart.save(function (err) {
+      if (err) next(err);
+      return res.redirect("/cart");
+    });
+  });
+});
+
+router.post("/remove", function (req, res, next) {
+  console.log(String(req.body.item));
+  Cart.findOne({ owner: req.user._id }, function (err, foundCart) {
+    foundCart.items.pull(String(req.body.item));
+    foundCart.total = (foundCart.total - parseFloat(req.body.price)).toFixed(2);
+    foundCart.save(function (err, found) {
+      if (err) return next(err);
+      req.flash("remove", "Successfully removed");
+      res.redirect("/cart");
+    });
+  });
 });
 
 router.post("/search", function (req, res, next) {

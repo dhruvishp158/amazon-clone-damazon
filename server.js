@@ -17,6 +17,8 @@ const secret = require("./config/secret");
 const adminRoutes = require("./routes/admin");
 const Category = require("./models/category");
 const apiRoutes = require("./api/api");
+const cartLength = require("./middleware/middlewares");
+
 connectDB();
 
 //middleware
@@ -40,6 +42,7 @@ app.use(function (req, res, next) {
   res.locals.user = req.user;
   next();
 });
+app.use(cartLength);
 app.use(function (req, res, next) {
   Category.find({}, function (err, categories) {
     if (err) return next(err);

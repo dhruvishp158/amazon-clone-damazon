@@ -106,6 +106,18 @@
             </div>
           </li>
         </ul>
+        <% } %> <% if (user) { %>
+        <li>
+          <a href="/cart" class="fa fa-shopping-cart" style="color: white;"
+            ><span class="badge" style="color: white;"><%= cart %> </span></a
+          >
+        </li>
+        <% } else { %>
+        <li>
+          <a href="/cart" class="fa fa-shopping-cart" style="color: white;"
+            ><span class="badge" style="color: white;">0 </span></a
+          >
+        </li>
         <% } %>
       </div>
     </nav>
