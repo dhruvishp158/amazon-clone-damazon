@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const async = require("async");
+const user = require("../models/user");
 const stripe = require("stripe")(
   "sk_test_51H50w7LOJkrpYleYrtQi10IyHeRbt2c6KcTQ92rD0MMW3W7zwNpECNtznB9ZJYbso14Jq8gnU1oOuuqRWoDWfkut00TPsgyPP3"
 );
@@ -151,6 +153,7 @@ router.get("/product/:id", function (req, res, next) {
 router.post("/payment", function (req, res, next) {
   let stripeToken = req.body.stripeToken;
   let currentCharges = Math.round(req.body.stripeMoney * 100);
+  console.log("token: " + stripeToken + " and charges: " + currentCharges);
   stripe.customers
     .create({
       source: stripeToken,
@@ -162,10 +165,42 @@ router.post("/payment", function (req, res, next) {
         customer: customer.id,
       });
     })
-    .catch(function (err) {
-      console.log(err);
+    .then(function (charge) {
+      async.waterfall([
+        function (callback) {
+          Cart.findOne({ owner: req.user._id }, function (err, cart) {
+            callback(err, cart);
+          });
+        },
+        function (cart, callbck) {
+          user.findOne({ _id: req.user._id }, function (err, user) {
+            if (user) {
+              for (let i = 0; i < cart.items.length; i++) {
+                user.history.push({
+                  item: cart.items[i].item,
+                  paid: cart.items[i].price,
+                });
+              }
+              user.save(function (err, user) {
+                if (err) return err;
+                callbck(err, user);
+              });
+            }
+          });
+        },
+        function (user) {
+          Cart.update(
+            { owner: user._id },
+            { $set: { items: [], total: 0 } },
+            function (err, updated) {
+              if (updated) {
+                res.redirect("profile");
+              }
+            }
+          );
+        },
+      ]);
     });
-  res.redirect("/profile");
 });
 
 module.exports = router;

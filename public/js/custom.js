@@ -67,28 +67,65 @@ $(document).on("click", "#minus", function (e) {
 });
 
 // payment stripe
-var Stripe = Stripe(
+var stripe = Stripe(
   "pk_test_51H50w7LOJkrpYleY0MoAuhjv15an8TZ2gZYUqENwfMtfWe7GNvGvn07qNZWL6mcud2EhcjlLTxTwL3IiiIvUpHAV00CcdLRJKz"
 );
-function stripeResponseHandler(status, response) {
-  console.log("object");
-  let $form = $("#payment-form");
-  if (response.error) {
-    //show error on the form
-    $form.find(".payment-errors").text(response.error.message);
-    $form.find("button").prop("disabled", false);
-  } else {
-    let token = response.id;
-    $form.append($('<input type="hidden" name="stripeToken" />')).val(token);
+var elements = stripe.elements();
+// function stripeResponseHandler(status, response) {
+//   console.log("object");
+//   let $form = $("#payment-form");
+//   if (response.error) {
+//     //show error on the form
+//     $form.find(".payment-errors").text(response.error.message);
+//     $form.find("button").prop("disabled", false);
+//   } else {
+//     let token = response.id;
+//     // ===================
+//     var card = elements.create("card");
 
-    $form.get(0).submit();
-  }
-}
+//     card.mount("#card-element");
+//     stripe.createToken(card).then(function (result) {
+//       if (result.error) {
+//         var errorElement = document.getElementById("card-errors");
+//         errorElement.textContent = result.error.message;
+//       } else {
+//         $form
+//           .append($('<input type="hidden" name="stripeToken" />'))
+//           .val(stripeTokenHandler(result.token));
 
-$("#payment-form").submit(function (event) {
-  console.log(".....hello");
-  let $form = $(this);
-  $form.find("button").prop("disabled", true);
-  Stripe.card.createToken($form, stripeResponseHandler);
-  return false;
+//         $form.get(0).submit();
+//       }
+//     });
+//   }
+// }
+
+// $("#payment-form").submit(function (event) {
+//   let $form = $(this);
+//   $form.find("button").prop("disabled", true);
+//   Stripe.card.createToken($form, stripeResponseHandler);
+//   return false;
+// });
+var card = elements.create("card");
+
+card.mount("#card-element");
+var form = document.getElementById("payment-form");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  stripe.createToken(card).then(function (result) {
+    if (result.error) {
+      console.log(result.error);
+    } else {
+      stripeTokenHandler(result.token);
+    }
+  });
 });
+function stripeTokenHandler(token) {
+  var form = document.getElementById("payment-form");
+  var hiddenInput = document.createElement("input");
+  hiddenInput.setAttribute("type", "hidden");
+  hiddenInput.setAttribute("name", "stripeToken");
+  hiddenInput.setAttribute("value", token.id);
+  form.appendChild(hiddenInput);
+  form.submit();
+}

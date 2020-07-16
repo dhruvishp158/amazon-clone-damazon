@@ -1,7 +1,18 @@
+<head>
+  <style>
+    #for-shadow {
+      margin: 0 auto;
+      text-align: center;
+      box-shadow: 7px 7px 16px -7px black;
+      padding: 2rem;
+    }
+  </style>
+</head>
+
 <% layout('layout') -%>
 
 <div class="row">
-  <div class="col-sm6 col-md-4">
+  <div class="col-sm6 col-md-4" id="for-shadow">
     <img
       src="<%= user.profile.picture %> "
       alt=""
@@ -9,20 +20,22 @@
       style="border-radius: 50%; margin-bottom: 2rem;"
     />
     <br />
-    <p>Name: <%= user.profile.name %></p>
-    <p>Email: <%= user.email %></p>
-    <% if (!user.address || user.address === "" || user.address ==='undefined')
-    { %>
-    <p>
-      Address:
-      <span style="color: #c0392b; font-weight: bold;">
-        you have no address
-      </span>
-    </p>
-    <%} else {%>
-    <p>Address: <%= user.address %></p>
-    <% } %>
+    <div style="margin-left: 2rem;">
+      <p>Name: <%= user.profile.name %></p>
+      <p>Email: <%= user.email %></p>
+      <% if (!user.address || user.address === "" || user.address
+      ==='undefined') { %>
+      <p>
+        Address:
+        <span style="color: #c0392b; font-weight: bold;">
+          you have no address
+        </span>
+      </p>
+      <%} else {%>
+      <p>Address: <%= user.address %></p>
+      <% } %>
 
-    <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
+      <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
+    </div>
   </div>
 </div>

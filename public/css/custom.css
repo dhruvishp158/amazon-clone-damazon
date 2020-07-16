@@ -7,15 +7,29 @@
 body {
   padding-top: 100px;
   margin: 2rem;
+  margin-left: 0;
+}
+.main-nav {
+  display: grid;
+  grid-template-columns: 56px auto;
+}
+.nav-one {
+  text-align: center;
+  margin-top: -5rem;
+  background: #343a40;
+  color: #fff;
+  height: 100%;
 }
 #navbar-gap {
   margin-top: -4%;
+  margin-left: 1rem;
 }
 .categories {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 1rem;
   margin: 5rem 2rem;
+  margin-right: 0;
 }
 .categories-individual {
   box-shadow: 2px 2px 8px -4px black;
@@ -41,8 +55,18 @@ img {
 .img-container {
   text-align: center;
 }
+img {
+  max-width: 250px;
+  border-radius: 2rem;
+}
 .product-image {
   width: 100%;
 }
 
-/* Payment form */
+/* Responsive */
+@media only screen and (max-width: 1160px) {
+  .categories {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+}

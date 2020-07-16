@@ -15,8 +15,27 @@
       box-shadow: 2px 2px 8px -4px black;
       padding: 2rem;
     }
+    .img-container {
+      text-align: center;
+    }
+    img {
+      max-width: 250px;
+      border-radius: 2rem;
+    }
     .caption {
       text-align: center;
+    }
+    @media only screen and (max-width: 1160px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto auto;
+      }
+    }
+    @media only screen and (max-width: 760px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto;
+      }
     }
   </style>
 </head>
@@ -31,11 +50,7 @@
       href="/product/<%= products[i]._id %> "
     >
       <div class="img-container">
-        <img
-          style="max-width: 300px; border-radius: 2rem;"
-          src="<%= products[i].image   %> "
-          alt=""
-        />
+        <img src="<%= products[i].image   %> " alt="" />
         <div class="caption" style="padding: 1rem;">
           <h3><%= products[i].name %></h3>
           <p><%= products[i].category.name %></p>

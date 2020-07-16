@@ -30,6 +30,18 @@
     .img-container {
       text-align: center;
     }
+    @media only screen and (max-width: 1160px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto auto;
+      }
+    }
+    @media only screen and (max-width: 760px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto;
+      }
+    }
   </style>
 </head>
 <% layout('layout') -%>

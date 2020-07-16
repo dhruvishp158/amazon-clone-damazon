@@ -1,4 +1,12 @@
-<head> </head>
+<head>
+  <style>
+    @media only screen and (max-width: 770px) {
+      .row {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
 <% layout('layout') -%>
 <div class="row">
   <div class="col-lg-6">
@@ -66,7 +74,7 @@
   </div>
   <div class="col-md-3"></div>
   <div class="col-md3">
-    <div class="list-group">
+    <div class="list-group" style="margin-left: 2rem; margin-top: 1rem;">
       <span class="list-group-item">
         <h4>Total: $ <span> <%= foundCart.total %> </span></h4>
         <div class="form-group">
@@ -107,7 +115,7 @@
             <div class="container">
               <div class="row">
                 <p class="payment-errors"></p>
-                <div class="card">
+                <div class="card" style="width: -webkit-fill-available;">
                   <div class="card-header">
                     <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
                       <ul
@@ -150,73 +158,12 @@
                             />
                           </div>
                           <div class="form-group">
-                            <label for="cardNumber">
+                            <label for="card-element">
                               <h6>Card number</h6>
                             </label>
-                            <div class="input-group">
-                              <input
-                                type="text"
-                                name="cardNumber"
-                                placeholder="Valid card number"
-                                class="form-control"
-                                required
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text text-muted">
-                                  <i class="fab fa-cc-visa mx-1"></i>
-                                  <i class="fab fa-cc-mastercard mx-1"></i>
-                                  <i class="fab fa-cc-amex mx-1"></i>
-                                </span>
-                              </div>
-                            </div>
+                            <div id="card-element" class="form-control"></div>
                           </div>
-                          <div class="row">
-                            <div class="col-sm-8">
-                              <div class="form-group">
-                                <label
-                                  ><span class="hidden-xs">
-                                    <h6>Expiration Date</h6>
-                                  </span></label
-                                >
-                                <div class="input-group">
-                                  <input
-                                    type="number"
-                                    placeholder="MM"
-                                    name=""
-                                    class="form-control"
-                                    required
-                                  />
-                                  <input
-                                    type="number"
-                                    placeholder="YY"
-                                    name=""
-                                    class="form-control"
-                                    required
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-4">
-                              <div class="form-group mb-4">
-                                <label
-                                  data-toggle="tooltip"
-                                  title="Three digit CV code on the back of your card"
-                                >
-                                  <h6>
-                                    CVV
-                                    <i
-                                      class="fa fa-question-circle d-inline"
-                                    ></i>
-                                  </h6>
-                                </label>
-                                <input
-                                  type="text"
-                                  required
-                                  class="form-control"
-                                />
-                              </div>
-                            </div>
-                          </div>
+
                           <div class="card-footer">
                             <button
                               type="submit"

@@ -11,12 +11,31 @@
       grid-gap: 1rem;
       margin: 5rem 2rem;
     }
+    .img-container {
+      text-align: center;
+    }
+    img {
+      max-width: 250px;
+      border-radius: 2rem;
+    }
     .categories-individual {
       box-shadow: 2px 2px 8px -4px black;
       padding: 2rem;
     }
     .caption {
       text-align: center;
+    }
+    @media only screen and (max-width: 1160px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto auto;
+      }
+    }
+    @media only screen and (max-width: 760px) {
+      .categories {
+        display: grid;
+        grid-template-columns: auto;
+      }
     }
   </style>
 </head>
@@ -29,14 +48,10 @@
   <div class="categories-individual">
     <a
       style="text-decoration: none; color: rgb(63, 65, 71);"
-      href="/product/<%= data[i]._source._id %> "
+      href="/product/<%= data[i]._id %> "
     >
       <div class="img-container">
-        <img
-          style="max-width: 300px; border-radius: 2rem;"
-          src="<%= data[i]._source.image   %> "
-          alt=""
-        />
+        <img src="<%= data[i]._source.image   %> " alt="" />
         <div class="caption" style="padding: 1rem;">
           <h3><%= data[i]._source.name %></h3>
           <p><%= data[i]._source.category.name %></p>

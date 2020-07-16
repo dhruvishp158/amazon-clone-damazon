@@ -6,9 +6,29 @@
     .product-1 {
       display: grid;
       grid-template-columns: auto auto;
+      text-align: center;
     }
     img {
       width: 650px;
+    }
+    @media only screen and (max-width: 1050px) {
+      .product-1 {
+        display: grid;
+        grid-template-columns: auto;
+      }
+      .product-3 {
+        margin: 0 auto;
+        margin-top: 3rem;
+        max-width: 265px;
+      }
+    }
+    @media only screen and (max-width: 687px) {
+      img {
+        width: 100%;
+      }
+      .product-3 {
+        margin-top: 3rem;
+      }
     }
   </style>
 </head>
@@ -48,6 +68,7 @@
             name="item"
             class="form-control"
             value="<%= product.name %> "
+            disabled
           />
           <input
             type="text"
