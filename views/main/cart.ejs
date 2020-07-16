@@ -1,69 +1,240 @@
+<head> </head>
 <% layout('layout') -%>
-<div class="container">
-  <div class="row">
-    <div class="col-lg-9">
-      <% if (message.length>0) { %>
-      <div class="alert alert-success alert-dismissible">
-        <button class="close" data-dismiss="alert" aria-label="close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <%= message %>
-      </div>
-      <% } %> <% for( let i = 0; i < foundCart.items.length; i++ ) { %>
+<div class="row">
+  <div class="col-lg-6">
+    <% if (message.length>0) { %>
+    <div class="alert alert-success alert-dismissible">
+      <button class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <%= message %>
+    </div>
 
-      <div
-        class="list-group"
-        style="margin: 1rem; box-shadow: 3px 6px 15px -11px black;"
-      >
-        <span class="list-group-item">
-          <div class="row">
-            <div class="col-md-3">
-              <span>
-                <img
-                  src="<%= foundCart.items[i].item.image %> "
-                  alt=""
-                  class="product-image"
-                />
-              </span>
-            </div>
-            <div class="col-md-3">
-              <p class="list-group-item-heading">
-                <%= foundCart.items[i].item.name %>
-              </p>
-            </div>
+    <% } %> <% for( let i = 0; i < foundCart.items.length; i++ ) { %>
 
-            <div class="col-md-3">
-              <p>
-                <%= foundCart.items[i].quantity %>
-              </p>
-              <p>
-                $<%= foundCart.items[i].price %>
-              </p>
-            </div>
-            <div class="col-md-3">
-              <form action="/remove" method="post">
-                <input
-                  type="hidden"
-                  name="item"
-                  value="<%= foundCart.items[i]._id %>"
-                />
-                <input
-                  type="hidden"
-                  name="price"
-                  value="<%= foundCart.items[i].price %> "
-                />
-                <button type="submit" type="button" style="padding: 3px 1rem;">
-                  Remove
-                </button>
-              </form>
+    <div
+      class="list-group"
+      style="margin: 1rem; box-shadow: 3px 6px 15px -11px black;"
+    >
+      <span class="list-group-item">
+        <div class="row">
+          <div class="col-md-3">
+            <span>
+              <img
+                src="<%= foundCart.items[i].item.image %> "
+                alt=""
+                class="product-image"
+              />
+            </span>
+          </div>
+          <div class="col-md-3">
+            <p class="list-group-item-heading">
+              <%= foundCart.items[i].item.name %>
+            </p>
+          </div>
+
+          <div class="col-md-3">
+            <p>
+              <%= foundCart.items[i].quantity %>
+            </p>
+            <p>
+              $<%= foundCart.items[i].price %>
+            </p>
+          </div>
+          <div class="col-md-3">
+            <form action="/remove" method="post">
+              <input
+                type="hidden"
+                name="item"
+                value="<%= foundCart.items[i]._id %>"
+              />
+              <input
+                type="hidden"
+                name="price"
+                value="<%= foundCart.items[i].price %> "
+              />
+              <button type="submit" type="button" style="padding: 3px 1rem;">
+                Remove
+              </button>
+            </form>
+          </div>
+        </div>
+      </span>
+    </div>
+
+    <% } %>
+  </div>
+  <div class="col-md-3"></div>
+  <div class="col-md3">
+    <div class="list-group">
+      <span class="list-group-item">
+        <h4>Total: $ <span> <%= foundCart.total %> </span></h4>
+        <div class="form-group">
+          <input type="hidden" name="" value="<%= foundCart.total %>" />
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            data-toggle="modal"
+            data-target="#myModal"
+          >
+            Pay with Stripe
+          </button>
+        </div>
+      </span>
+    </div>
+    <div
+      class="modal fade"
+      id="myModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Pay with Stripe</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <p class="payment-errors"></p>
+                <div class="card">
+                  <div class="card-header">
+                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                      <ul
+                        role="tablist"
+                        class="nav bg-light nav-pills rounded nav-fill mb-3"
+                      >
+                        <li class="nav-item">
+                          <a
+                            data-toggle="pill"
+                            href="#credit-card"
+                            class="nav-link active"
+                          >
+                            <i class="fas fa-credit-card mr-2"></i> Pay with
+                            Stripe
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="tab-content">
+                      <div
+                        id="credit-card"
+                        class="tab-pane fade show active pt-3"
+                      >
+                        <form action="/payment" method="post" id="payment-form">
+                          <input
+                            type="hidden"
+                            name="stripeMoney"
+                            value="<%= foundCart.total %> "
+                          />
+                          <div class="form-group">
+                            <label for="username">
+                              <h6>Card Owner</h6>
+                            </label>
+                            <input
+                              type="text"
+                              name="username"
+                              placeholder="Card Owner Name"
+                              required
+                              class="form-control"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="cardNumber">
+                              <h6>Card number</h6>
+                            </label>
+                            <div class="input-group">
+                              <input
+                                type="text"
+                                name="cardNumber"
+                                placeholder="Valid card number"
+                                class="form-control"
+                                required
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text text-muted">
+                                  <i class="fab fa-cc-visa mx-1"></i>
+                                  <i class="fab fa-cc-mastercard mx-1"></i>
+                                  <i class="fab fa-cc-amex mx-1"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-8">
+                              <div class="form-group">
+                                <label
+                                  ><span class="hidden-xs">
+                                    <h6>Expiration Date</h6>
+                                  </span></label
+                                >
+                                <div class="input-group">
+                                  <input
+                                    type="number"
+                                    placeholder="MM"
+                                    name=""
+                                    class="form-control"
+                                    required
+                                  />
+                                  <input
+                                    type="number"
+                                    placeholder="YY"
+                                    name=""
+                                    class="form-control"
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group mb-4">
+                                <label
+                                  data-toggle="tooltip"
+                                  title="Three digit CV code on the back of your card"
+                                >
+                                  <h6>
+                                    CVV
+                                    <i
+                                      class="fa fa-question-circle d-inline"
+                                    ></i>
+                                  </h6>
+                                </label>
+                                <input
+                                  type="text"
+                                  required
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer">
+                            <button
+                              type="submit"
+                              class="subscribe btn btn-primary btn-block shadow-sm"
+                            >
+                              Confirm Payment: $(<%= foundCart.total %> )
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </span>
+        </div>
       </div>
-
-      <% } %>
     </div>
-    <div class="3"></div>
-    <div class="3"></div>
   </div>
 </div>

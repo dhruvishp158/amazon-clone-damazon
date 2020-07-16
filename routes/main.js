@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const stripe = require("stripe")(
+  "sk_test_51H50w7LOJkrpYleYrtQi10IyHeRbt2c6KcTQ92rD0MMW3W7zwNpECNtznB9ZJYbso14Jq8gnU1oOuuqRWoDWfkut00TPsgyPP3"
+);
 
 Product.createMapping(function (err, mapping) {
   if (err) {
@@ -56,6 +59,7 @@ router.post("/remove", function (req, res, next) {
   console.log(String(req.body.item));
   Cart.findOne({ owner: req.user._id }, function (err, foundCart) {
     foundCart.items.pull(String(req.body.item));
+    console.log(foundCart.total);
     foundCart.total = (foundCart.total - parseFloat(req.body.price)).toFixed(2);
     foundCart.save(function (err, found) {
       if (err) return next(err);
@@ -141,6 +145,27 @@ router.get("/product/:id", function (req, res, next) {
       product: product,
     });
   });
+});
+
+//payment
+router.post("/payment", function (req, res, next) {
+  let stripeToken = req.body.stripeToken;
+  let currentCharges = Math.round(req.body.stripeMoney * 100);
+  stripe.customers
+    .create({
+      source: stripeToken,
+    })
+    .then(function (customer) {
+      return stripe.charges.create({
+        amount: currentCharges,
+        currency: "CAD",
+        customer: customer.id,
+      });
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  res.redirect("/profile");
 });
 
 module.exports = router;
