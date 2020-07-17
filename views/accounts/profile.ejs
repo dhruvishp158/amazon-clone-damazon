@@ -38,4 +38,30 @@
       <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
     </div>
   </div>
+  <% if(user.history.length>0) {%>
+  <div
+    class="col-md-6"
+    style="box-shadow: 7px 7px 16px -7px black; padding: 2rem;"
+  >
+    <h2 class="text-center">Shopping History</h2>
+
+    <table class="table table-striped sticky-header">
+      <thead>
+        <tr>
+          <th>Item's Name</th>
+          <th>Purchased</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for (let i = 0; i < user.history.length; i++) { %>
+        <tr>
+          <td><%= user.history[i].item.name %></td>
+          <td>$<%= user.history[i].paid %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
 </div>

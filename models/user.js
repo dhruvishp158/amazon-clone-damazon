@@ -16,6 +16,9 @@ let UserSchema = new mongoose.Schema({
       item: { type: schema.Types.ObjectId, ref: "Product" },
     },
   ],
+  // Facebook login
+  facebook: String,
+  tokens: Array,
 });
 
 UserSchema.pre("save", function (next) {

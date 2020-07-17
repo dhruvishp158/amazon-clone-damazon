@@ -17,7 +17,7 @@ $(function () {
         for (let i = 0; i < data.length; i++) {
           let html = "";
           html += '<div class="categories-individual">';
-          html += '<a href="/product/' + data[i]._id + '">"';
+          html += '<a href="/product/' + data[i]._id + '">';
           html += '<div class="img-container">';
           html += '<img src="' + data[i]._source.image + '">';
           html += '<div class="caption" style="padding: 1rem;">';
@@ -71,40 +71,7 @@ var stripe = Stripe(
   "pk_test_51H50w7LOJkrpYleY0MoAuhjv15an8TZ2gZYUqENwfMtfWe7GNvGvn07qNZWL6mcud2EhcjlLTxTwL3IiiIvUpHAV00CcdLRJKz"
 );
 var elements = stripe.elements();
-// function stripeResponseHandler(status, response) {
-//   console.log("object");
-//   let $form = $("#payment-form");
-//   if (response.error) {
-//     //show error on the form
-//     $form.find(".payment-errors").text(response.error.message);
-//     $form.find("button").prop("disabled", false);
-//   } else {
-//     let token = response.id;
-//     // ===================
-//     var card = elements.create("card");
 
-//     card.mount("#card-element");
-//     stripe.createToken(card).then(function (result) {
-//       if (result.error) {
-//         var errorElement = document.getElementById("card-errors");
-//         errorElement.textContent = result.error.message;
-//       } else {
-//         $form
-//           .append($('<input type="hidden" name="stripeToken" />'))
-//           .val(stripeTokenHandler(result.token));
-
-//         $form.get(0).submit();
-//       }
-//     });
-//   }
-// }
-
-// $("#payment-form").submit(function (event) {
-//   let $form = $(this);
-//   $form.find("button").prop("disabled", true);
-//   Stripe.card.createToken($form, stripeResponseHandler);
-//   return false;
-// });
 var card = elements.create("card");
 
 card.mount("#card-element");
@@ -127,5 +94,6 @@ function stripeTokenHandler(token) {
   hiddenInput.setAttribute("name", "stripeToken");
   hiddenInput.setAttribute("value", token.id);
   form.appendChild(hiddenInput);
+
   form.submit();
 }

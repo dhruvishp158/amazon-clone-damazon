@@ -61,13 +61,13 @@ router.post(
   function (req, res) {}
 );
 
-router.get("/profile", function (req, res) {
-  User.findOne({ _id: req.user._id }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    res.render("accounts/profile", { user: user });
-  });
+router.get("/profile", passportConfig.isAuthenticated, function (req, res) {
+  User.findOne({ _id: req.user._id })
+    .populate("history.item")
+    .exec(function (err, foundUser) {
+      if (err) return next(err);
+      res.render("accounts/profile", { user: foundUser });
+    });
   //   res.json(req.user);
 });
 
@@ -93,4 +93,17 @@ router.post("/edit-profile", function (req, res, next) {
     });
   });
 });
+
+//facebook
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: "email" })
+);
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+  })
+);
 module.exports = router;
