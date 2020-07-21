@@ -8,18 +8,9 @@ body {
   padding-top: 100px;
   margin: 2rem;
   margin-left: 0;
+  margin-bottom: 0;
 }
-.main-nav {
-  display: grid;
-  grid-template-columns: 56px auto;
-}
-.nav-one {
-  text-align: center;
-  margin-top: -5rem;
-  background: #343a40;
-  color: #fff;
-  height: 100%;
-}
+
 #navbar-gap {
   margin-top: -4%;
   margin-left: 1rem;

@@ -86,16 +86,15 @@
     </a>
   </div>
   <% } %>
-
-  <ul class="pagination" style="margin-top: 2rem;">
-    <% for( let i = 1; i <= pages; i++ ) { %> <% if (i===1) { %>
-    <li class="page-item">
-      <a class="page-link" href="/"><%= i %> </a>
-    </li>
-    <% } else { %>
-    <li class="page-item">
-      <a class="page-link" href="/page/<%= i %>"><%= i %></a>
-    </li>
-    <% } %> <% } %>
-  </ul>
 </div>
+<ul class="pagination" style="margin: 1rem;">
+  <% for( let i = 1; i <= pages; i++ ) { %> <% if (i===1) { %>
+  <li class="page-item">
+    <a class="page-link" href="/"><%= i %> </a>
+  </li>
+  <% } else { %>
+  <li class="page-item">
+    <a class="page-link" href="/page/<%= i %>"><%= i %></a>
+  </li>
+  <% } %> <% } %>
+</ul>

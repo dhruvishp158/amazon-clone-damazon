@@ -8,7 +8,8 @@
   </style>
 </head>
 <% layout('layout') -%>
-<div class="row">
+<div class="row" style="padding: 1rem;">
+  <% if (foundCart.items.length>0) { %>
   <div class="col-lg-6">
     <% if (message.length>0) { %>
     <div class="alert alert-success alert-dismissible">
@@ -22,7 +23,7 @@
 
     <div
       class="list-group"
-      style="margin: 1rem; box-shadow: 3px 6px 15px -11px black;"
+      style="margin: 1rem; box-shadow: 6px 6px 5.5px -5px black;"
     >
       <span class="list-group-item">
         <div class="row">
@@ -61,7 +62,7 @@
                 name="price"
                 value="<%= foundCart.items[i].price %> "
               />
-              <button type="submit" type="button" style="padding: 3px 1rem;">
+              <button type="submit" type="button" class="btn btn-danger">
                 Remove
               </button>
             </form>
@@ -72,10 +73,22 @@
 
     <% } %>
   </div>
+  <% } else {%>
+  <div class="col-lg-6" style="padding: 1rem 3rem;">
+    <img
+      src="https://m.media-amazon.com/images/G/15/cart/empty/kettle-desaturated._CB424694027_.svg"
+    />
+    <h4 style="padding: 2rem 1.3rem;">Your cart is empty!</h4>
+  </div>
+  <% } %>
+
   <div class="col-md-3"></div>
   <div class="col-md3">
     <div class="list-group" style="margin-left: 2rem; margin-top: 1rem;">
-      <span class="list-group-item">
+      <span
+        class="list-group-item"
+        style="box-shadow: 6px 6px 5.5px -5px black;"
+      >
         <h4>Total: $ <span> <%= foundCart.total %> </span></h4>
         <div class="form-group">
           <input type="hidden" name="" value="<%= foundCart.total %>" />

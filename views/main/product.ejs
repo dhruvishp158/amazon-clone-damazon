@@ -8,7 +8,7 @@
       grid-template-columns: auto auto;
       text-align: center;
     }
-    img {
+    .product-image {
       width: 650px;
     }
     @media only screen and (max-width: 1050px) {
@@ -23,7 +23,7 @@
       }
     }
     @media only screen and (max-width: 687px) {
-      img {
+      .product-image {
         width: 100%;
       }
       .product-3 {
@@ -38,7 +38,7 @@
 <div class="product-container">
   <div class="product-1">
     <div class="product-2">
-      <img src="<%= product.image %>" alt="" />
+      <img class="product-image" src="<%= product.image %>" alt="" />
     </div>
     <div class="product-3">
       <h3><%= product.name %></h3>
