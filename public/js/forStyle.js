@@ -17,6 +17,21 @@ mainCircle.addEventListener("click", () => {
     mainBody.style.pointerEvents = "none";
   } else {
     mainBody.style.filter = "none";
-    // mainBody.style.pointerEvents = "all";
+    mainBody.style.pointerEvents = "all";
+    mainCircle.style.animation = "pulse 2s infinite";
   }
+});
+// PDF
+var doc = new jsPDF();
+var specialElementHandlers = {
+  "#editor": function (element, renderer) {
+    return true;
+  },
+};
+
+$("#download").click(function () {
+  doc.fromHTML($("#pdf").html(), 15, 15, {
+    width: 170,
+  });
+  doc.save("sample-file.pdf");
 });

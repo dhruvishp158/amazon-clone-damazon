@@ -1,0 +1,60 @@
+<head>
+  <style>
+    #for-shadow {
+      margin: 0 auto;
+      text-align: center;
+      box-shadow: 7px 7px 16px -7px black;
+      padding: 2rem;
+    }
+  </style>
+</head>
+
+<% layout('layout') -%>
+
+<div style="padding: 3rem; margin-left: 2rem;">
+  <% if(user.history.length>0) {%>
+
+  <div class="row">
+    <div class="col-md-10">
+      <h2 class="text-center">Cart History</h2>
+    </div>
+    <div class="col-md-2" style="text-align: right;">
+      <button class="btn btn-primary" id="download">
+        Download <i class="fas fa-download"></i>
+      </button>
+    </div>
+  </div>
+  <div id="editor"></div>
+
+  <table
+    class="table table-striped sticky-header table-fixed"
+    style="box-shadow: 0px 1px 5px 0px black;"
+    id="pdf"
+  >
+    <thead>
+      <tr>
+        <th>Item's Name</th>
+        <th>Purchased</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% for (let i = 0; i < user.history.length; i++) { %>
+      <tr>
+        <td><%= user.history[i].item.name %></td>
+        <td>$<%= user.history[i].paid %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <div style="padding: 3rem; margin-left: 2rem;">
+    <h2 class="text-center">You do not have any Shopping history!</h2>
+    <div style="text-align: center; margin-top: 3rem;">
+      <a class="btn btn-primary btn-lg" style="color: white;" href="/">
+        Shop Items</a
+      >
+    </div>
+  </div>
+  <% } %>
+</div>

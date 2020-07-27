@@ -18,7 +18,8 @@ const adminRoutes = require("./routes/admin");
 const Category = require("./models/category");
 const apiRoutes = require("./api/api");
 const cartLength = require("./middleware/middlewares");
-
+const customize = require("./routes/customize");
+const path = require(path);
 connectDB();
 
 //middleware
@@ -57,7 +58,15 @@ app.set("view engine", "ejs");
 app.use(mainRoutes);
 app.use(userRoutes);
 app.use(adminRoutes);
+app.use(customize);
 app.use("/api", apiRoutes);
+//PRODUCTION
+if(process.env.NODE_ENV='production')P{
+  app.use('build') ;
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'build','index.html'))
+  })
+}
 app.listen(secret.port, function (err) {
   if (err) throw err;
   console.log("server is running on port 3000");

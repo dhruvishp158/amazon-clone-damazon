@@ -53,7 +53,9 @@ img {
 .product-image {
   width: 100%;
 }
-
+.side-links {
+  color: white;
+}
 /* Responsive */
 @media only screen and (max-width: 1160px) {
   .categories {
