@@ -61,11 +61,11 @@ app.use(adminRoutes);
 app.use(customize);
 app.use("/api", apiRoutes);
 //PRODUCTION
-if(process.env.NODE_ENV='production')P{
-  app.use('build') ;
-  app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'build','index.html'))
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
 }
 app.listen(secret.port, function (err) {
   if (err) throw err;
